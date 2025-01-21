@@ -1,0 +1,753 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#ifndef APSTUDIO_INVOKED
+#include "targetver.h"
+#endif
+#include "afxres.h"
+#include "verrsrc.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#ifndef APSTUDIO_INVOKED\r\n"
+    "#include ""targetver.h""\r\n"
+    "#endif\r\n"
+    "#include ""afxres.h""\r\n"
+    "#include ""verrsrc.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#include ""res\\FauveEdit.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""      // Standard components\r\n"
+    "#include ""afxprint.rc""    // printing/print preview resources\r\n"
+    "#if !defined(_AFXDLL)\r\n"
+    "#include ""afxribbon.rc""        // MFC ribbon and control bar resources\r\n"
+    "#endif\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "res\\FauveEdit.ico"
+IDR_FauveEditTYPE       ICON                    "res\\FauveDoc.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDR_MAINFRAME           BITMAP                  "res\\Toolbar.bmp"
+IDR_MAINFRAME_256       BITMAP                  "res\\Toolbar256.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+IDR_MAINFRAME TOOLBAR 16, 15
+BEGIN
+    BUTTON      ID_FILE_OPEN
+    BUTTON      ID_FILE_SAVE
+    SEPARATOR
+    BUTTON      ID_EDIT_UNDO
+    BUTTON      ID_EDIT_REDO
+    SEPARATOR
+    BUTTON      ID_FILE_PRINT
+    BUTTON      ID_APP_ABOUT
+END
+
+IDR_MAINFRAME_256 TOOLBAR 16, 15
+BEGIN
+    BUTTON      ID_FILE_OPEN
+    BUTTON      ID_FILE_SAVE
+    SEPARATOR
+    BUTTON      ID_EDIT_UNDO
+    BUTTON      ID_EDIT_REDO
+    SEPARATOR
+    BUTTON      ID_FILE_PRINT
+    SEPARATOR
+    BUTTON      ID_APP_ABOUT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINFRAME MENU
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
+        MENUITEM "&Close",                      ID_FILE_CLOSE
+        MENUITEM SEPARATOR
+        MENUITEM "P&rint Setup...",             ID_FILE_PRINT_SETUP
+        MENUITEM SEPARATOR
+        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       ID_APP_EXIT
+    END
+    POPUP "&View"
+    BEGIN
+        POPUP "&Toolbars and Docking Windows"
+        BEGIN
+            MENUITEM "<placeholder>",               ID_VIEW_TOOLBAR
+        END
+        MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
+        POPUP "&Application Look"
+        BEGIN
+            MENUITEM "Windows &2000",               ID_VIEW_APPLOOK_WIN_2000
+            MENUITEM "Office &XP",                  ID_VIEW_APPLOOK_OFF_XP
+            MENUITEM "&Windows XP",                 ID_VIEW_APPLOOK_WIN_XP
+            MENUITEM "Office 200&3",                ID_VIEW_APPLOOK_OFF_2003
+            MENUITEM "Visual Studio 200&5",         ID_VIEW_APPLOOK_VS_2005
+            MENUITEM "Visual Studio 200&8",         ID_VIEW_APPLOOK_VS_2008
+            POPUP "Office 200&7"
+            BEGIN
+                MENUITEM "&Blue Style",                 ID_VIEW_APPLOOK_OFF_2007_BLUE
+                MENUITEM "B&lack Style",                ID_VIEW_APPLOOK_OFF_2007_BLACK
+                MENUITEM "&Silver Style",               ID_VIEW_APPLOOK_OFF_2007_SILVER
+                MENUITEM "&Aqua Style",                 ID_VIEW_APPLOOK_OFF_2007_AQUA
+            END
+        END
+    END
+    POPUP "&Tools"
+    BEGIN
+        MENUITEM "&Options",                    ID_TOOLS_OPTIONS
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About FauveEdit...",         ID_APP_ABOUT
+    END
+END
+
+IDR_FauveEditTYPE MENU
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
+        MENUITEM "&Close",                      ID_FILE_CLOSE
+        MENUITEM "&Save\tCtrl+S",               ID_FILE_SAVE
+        MENUITEM "Save &As...",                 ID_FILE_SAVE_AS
+        MENUITEM SEPARATOR
+        MENUITEM "&Export Video",               ID_FILE_EXPORT_VIDEO
+        MENUITEM SEPARATOR
+        MENUITEM "&Print...\tCtrl+P",           ID_FILE_PRINT
+        MENUITEM "Print Pre&view",              ID_FILE_PRINT_PREVIEW
+        MENUITEM "P&rint Setup...",             ID_FILE_PRINT_SETUP
+        MENUITEM SEPARATOR
+        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       ID_APP_EXIT
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Undo",                       ID_EDIT_UNDO
+        MENUITEM "&Redo",                       ID_EDIT_REDO
+        MENUITEM SEPARATOR
+        MENUITEM "R&otate CW",                  ID_EDIT_ROTATE_CW
+        MENUITEM SEPARATOR
+        MENUITEM "&Crop...",                    ID_EDIT_CROP
+        MENUITEM "&Levels...",                  ID_EDIT_LEVELS
+        MENUITEM "&Hue...",                     ID_EDIT_HUE
+        MENUITEM "&Source...",                  ID_EDIT_SOURCE_IMAGE
+        MENUITEM SEPARATOR
+        MENUITEM "&Animate",                    ID_EDIT_ANIMATE
+    END
+    POPUP "&View"
+    BEGIN
+        POPUP "&Toolbars and Docking Windows"
+        BEGIN
+            MENUITEM "<placeholder>",               ID_VIEW_TOOLBAR
+        END
+        MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
+        POPUP "&Application Look"
+        BEGIN
+            MENUITEM "Windows &2000",               ID_VIEW_APPLOOK_WIN_2000
+            MENUITEM "Office &XP",                  ID_VIEW_APPLOOK_OFF_XP
+            MENUITEM "&Windows XP",                 ID_VIEW_APPLOOK_WIN_XP
+            MENUITEM "Office 200&3",                ID_VIEW_APPLOOK_OFF_2003
+            MENUITEM "Visual Studio 200&5",         ID_VIEW_APPLOOK_VS_2005
+            MENUITEM "Visual Studio 200&8",         ID_VIEW_APPLOOK_VS_2008
+            POPUP "Office 200&7"
+            BEGIN
+                MENUITEM "&Blue Style",                 ID_VIEW_APPLOOK_OFF_2007_BLUE
+                MENUITEM "B&lack Style",                ID_VIEW_APPLOOK_OFF_2007_BLACK
+                MENUITEM "&Silver Style",               ID_VIEW_APPLOOK_OFF_2007_SILVER
+                MENUITEM "&Aqua Style",                 ID_VIEW_APPLOOK_OFF_2007_AQUA
+            END
+        END
+    END
+    POPUP "&Tools"
+    BEGIN
+        MENUITEM "&Options",                    ID_TOOLS_OPTIONS
+    END
+    POPUP "&Window"
+    BEGIN
+        MENUITEM "&New Window",                 ID_WINDOW_NEW
+        MENUITEM "&Full Screen",                ID_WINDOW_FULL_SCREEN
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About FauveEdit...",         ID_APP_ABOUT
+    END
+END
+
+IDR_POPUP_EDIT MENU
+BEGIN
+    POPUP "Edit"
+    BEGIN
+        MENUITEM "&Undo",                       ID_EDIT_UNDO
+    END
+END
+
+IDR_HELP_MENU MENU
+BEGIN
+    MENUITEM "&About FauveEdit...",         ID_APP_ABOUT
+END
+
+IDR_THEME_MENU MENU
+BEGIN
+    MENUITEM "Office 2007 (&Blue Style)",   ID_VIEW_APPLOOK_OFF_2007_BLUE
+    MENUITEM "Office 2007 (B&lack Style)",  ID_VIEW_APPLOOK_OFF_2007_BLACK
+    MENUITEM "Office 2007 (&Silver Style)", ID_VIEW_APPLOOK_OFF_2007_SILVER
+    MENUITEM "Office 2007 (&Aqua Style)",   ID_VIEW_APPLOOK_OFF_2007_AQUA
+    MENUITEM "Win&dows 7",                  ID_VIEW_APPLOOK_WINDOWS_7
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_MAINFRAME ACCELERATORS
+BEGIN
+    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
+    VK_INSERT,      ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
+    VK_DELETE,      ID_EDIT_CUT,            VIRTKEY, SHIFT, NOINVERT
+    "X",            ID_EDIT_CUT,            VIRTKEY, CONTROL, NOINVERT
+    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL, NOINVERT
+    VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY, SHIFT, NOINVERT
+    "Y",            ID_EDIT_REDO,           VIRTKEY, CONTROL, NOINVERT
+    "R",            ID_EDIT_ROTATE_CW,      VIRTKEY, CONTROL, NOINVERT
+    VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT, NOINVERT
+    "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL, NOINVERT
+    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL, NOINVERT
+    "P",            ID_FILE_PRINT,          VIRTKEY, CONTROL, NOINVERT
+    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL, NOINVERT
+    VK_F6,          ID_NEXT_PANE,           VIRTKEY, NOINVERT
+    VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT, NOINVERT
+    "O",            ID_TOOLS_OPTIONS,       VIRTKEY, SHIFT, CONTROL, NOINVERT
+    VK_F11,         ID_WINDOW_FULL_SCREEN,  VIRTKEY, NOINVERT
+    VK_F5,          ID_EDIT_ANIMATE,        VIRTKEY, NOINVERT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOGEX 0, 0, 240, 100
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About FauveEdit"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,7,7,20,20
+    LTEXT           "FauveEdit 0.0",IDC_ABOUT_VERSION,40,7,135,8,SS_NOPREFIX
+    LTEXT           "Copyleft 2018 Chris Korda",IDC_STATIC,40,20,135,8
+    DEFPUSHBUTTON   "OK",IDOK,183,7,50,14,WS_GROUP
+    EDITTEXT        IDC_ABOUT_LICENSE,7,38,226,55,ES_MULTILINE | ES_READONLY | WS_VSCROLL
+END
+
+IDD_HUE_PANE DIALOGEX 0, 0, 143, 79
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    RTEXT           "R",IDC_STATIC,7,7,10,15,SS_CENTERIMAGE
+    CONTROL         "",IDC_HUE_SLIDER_1,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,20,7,100,15
+    RTEXT           "G",IDC_STATIC,7,27,10,15,SS_CENTERIMAGE
+    CONTROL         "",IDC_HUE_SLIDER_2,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,20,27,100,15
+    RTEXT           "B",IDC_STATIC,7,47,10,15,SS_CENTERIMAGE
+    CONTROL         "",IDC_HUE_SLIDER_3,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,20,47,100,15
+END
+
+IDD_CROP DIALOGEX 0, 0, 119, 93
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Crop"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "Left:",IDC_STATIC,13,7,16,8
+    EDITTEXT        IDC_CROP_EDIT_LEFT,13,17,40,14,ES_AUTOHSCROLL
+    LTEXT           "Top:",IDC_STATIC,66,7,16,8
+    EDITTEXT        IDC_CROP_EDIT_TOP,66,17,40,14,ES_AUTOHSCROLL
+    LTEXT           "Width:",IDC_STATIC,13,37,22,8
+    EDITTEXT        IDC_CROP_EDIT_WIDTH,13,47,40,14,ES_AUTOHSCROLL
+    LTEXT           "Height:",IDC_STATIC,66,37,24,8
+    EDITTEXT        IDC_CROP_EDIT_HEIGHT,66,47,40,14,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,7,72,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,61,72,50,14
+END
+
+IDD_LEVELS DIALOGEX 0, 0, 119, 62
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Levels"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "Min:",IDC_STATIC,13,7,14,8
+    EDITTEXT        IDC_LEVELS_EDIT_MIN,13,17,40,14,ES_AUTOHSCROLL
+    LTEXT           "Max:",IDC_STATIC,66,7,17,8
+    EDITTEXT        IDC_LEVELS_EDIT_MAX,66,17,40,14,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,7,41,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,61,41,50,14
+END
+
+IDD_HUE DIALOGEX 0, 0, 151, 62
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Hue"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "Red:",IDC_STATIC,7,7,16,8
+    EDITTEXT        IDC_HUE_EDIT_RED,7,17,40,14,ES_AUTOHSCROLL
+    LTEXT           "Green:",IDC_STATIC,55,7,23,8
+    EDITTEXT        IDC_HUE_EDIT_GREEN,55,17,40,14,ES_AUTOHSCROLL
+    LTEXT           "Blue:",IDC_STATIC,103,7,17,8
+    EDITTEXT        IDC_HUE_EDIT_BLUE,103,17,40,14,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,40,41,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,94,41,50,14
+END
+
+IDD_OPTIONS DIALOGEX 0, 0, 175, 178
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Options"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "&Multithreading:",IDC_STATIC,7,7,49,8
+    COMBOBOX        IDC_OPTIONS_MULTITHREADING_COMBO,7,17,90,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Threads:",IDC_STATIC,109,7,30,8
+    EDITTEXT        IDC_OPTIONS_CUSTOM_THREADS_EDIT,109,17,40,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Background &Color:",IDC_STATIC,7,37,60,8
+    CONTROL         "",IDC_OPTIONS_BACKGROUND_COLOR,"MfcColorButton",WS_TABSTOP,7,47,50,14
+    GROUPBOX        "Animation",IDC_STATIC,7,71,161,78
+    LTEXT           "&Frame Rate:",IDC_STATIC,17,85,41,8
+    EDITTEXT        IDC_OPTIONS_ANIM_FRAME_RATE_EDIT,17,95,40,14,ES_AUTOHSCROLL
+    LTEXT           "&Red:",IDC_STATIC,17,115,16,8
+    EDITTEXT        IDC_OPTIONS_ANIM_HUE_RATE_EDIT1,17,125,40,14,ES_AUTOHSCROLL
+    LTEXT           "&Green:",IDC_STATIC,67,115,23,8
+    EDITTEXT        IDC_OPTIONS_ANIM_HUE_RATE_EDIT2,67,125,40,14,ES_AUTOHSCROLL
+    LTEXT           "&Blue:",IDC_STATIC,117,115,17,8
+    EDITTEXT        IDC_OPTIONS_ANIM_HUE_RATE_EDIT3,117,125,40,14,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,64,157,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,118,157,50,14
+END
+
+IDD_PROGRESS DIALOG 0, 0, 186, 49
+STYLE DS_SETFONT | DS_MODALFRAME | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Progress"
+FONT 8, "MS Sans Serif"
+BEGIN
+    CONTROL         "Progress",IDC_PROGRESS,"msctls_progress32",PBS_SMOOTH | WS_BORDER,7,7,172,14
+    PUSHBUTTON      "Cancel",IDCANCEL,67,28,50,14
+    RTEXT           "",IDC_PROGRESS_PERCENT,139,27,40,15,SS_CENTERIMAGE
+END
+
+IDD_RECORD DIALOGEX 0, 0, 219, 101
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Record"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "&Duration",-1,7,7,130,37
+    EDITTEXT        IDC_RECORD_DURATION,14,19,60,14,ES_AUTOHSCROLL
+    CONTROL         "&Time",IDC_RECORD_DURATION_UNIT,"Button",BS_AUTORADIOBUTTON | WS_GROUP,86,15,33,10
+    CONTROL         "&Frames",IDC_RECORD_DURATION_UNIT2,"Button",BS_AUTORADIOBUTTON,86,29,41,10
+    LTEXT           "Frame &Rate:",-1,149,9,42,8
+    EDITTEXT        IDC_RECORD_FRAME_RATE,149,19,40,14,ES_AUTOHSCROLL
+    LTEXT           "Frame &Size:",-1,7,47,41,8
+    COMBOBOX        IDC_RECORD_FRAME_SIZE,7,57,100,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Width:",IDC_RECORD_FRAME_WIDTH_CAP,116,47,23,8
+    EDITTEXT        IDC_RECORD_FRAME_WIDTH,116,57,40,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "&Height:",IDC_RECORD_FRAME_HEIGHT_CAP,164,47,24,8
+    EDITTEXT        IDC_RECORD_FRAME_HEIGHT,164,57,40,14,ES_AUTOHSCROLL | ES_NUMBER
+    DEFPUSHBUTTON   "OK",IDOK,106,80,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,162,80,50,14
+END
+
+IDD_PATH DIALOGEX 0, 0, 311, 50
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Path"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_PATH_EDIT,7,7,297,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Browse...",IDC_PATH_BROWSE,7,29,50,14
+    DEFPUSHBUTTON   "OK",IDOK,199,29,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,254,29,50,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 163
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 55
+    END
+
+    IDD_HUE_PANE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 136
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 72
+    END
+
+    IDD_CROP, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 112
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 86
+    END
+
+    IDD_LEVELS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 112
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 55
+    END
+
+    IDD_HUE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 144
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 55
+    END
+
+    IDD_OPTIONS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 168
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 171
+    END
+
+    IDD_PROGRESS, DIALOG
+    BEGIN
+    END
+
+    IDD_RECORD, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 212
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 94
+    END
+
+    IDD_PATH, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 304
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 43
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_OPTIONS DLGINIT
+BEGIN
+    IDC_OPTIONS_MULTITHREADING_COMBO, 0x403, 14, 0
+0x6953, 0x676e, 0x656c, 0x5420, 0x7268, 0x6165, 0x0064, 
+    IDC_OPTIONS_MULTITHREADING_COMBO, 0x403, 20, 0
+0x6e4f, 0x2065, 0x6854, 0x6572, 0x6461, 0x5020, 0x7265, 0x4320, 0x726f, 
+0x0065, 
+    IDC_OPTIONS_MULTITHREADING_COMBO, 0x403, 20, 0
+0x7543, 0x7473, 0x6d6f, 0x5420, 0x7268, 0x6165, 0x2064, 0x6f43, 0x6e75, 
+0x0074, 
+    IDC_OPTIONS_BACKGROUND_COLOR, 0x37c, 215, 0
+0x4d3c, 0x4346, 0x6f43, 0x6f6c, 0x4272, 0x7475, 0x6f74, 0x5f6e, 0x6e45, 
+0x6261, 0x656c, 0x744f, 0x6568, 0x4272, 0x7475, 0x6f74, 0x3e6e, 0x5254, 
+0x4555, 0x2f3c, 0x464d, 0x4343, 0x6c6f, 0x726f, 0x7542, 0x7474, 0x6e6f, 
+0x455f, 0x616e, 0x6c62, 0x4f65, 0x6874, 0x7265, 0x7542, 0x7474, 0x6e6f, 
+0x3c3e, 0x464d, 0x4343, 0x6c6f, 0x726f, 0x7542, 0x7474, 0x6e6f, 0x455f, 
+0x616e, 0x6c62, 0x4165, 0x7475, 0x6d6f, 0x7461, 0x6369, 0x7542, 0x7474, 
+0x6e6f, 0x463e, 0x4c41, 0x4553, 0x2f3c, 0x464d, 0x4343, 0x6c6f, 0x726f, 
+0x7542, 0x7474, 0x6e6f, 0x455f, 0x616e, 0x6c62, 0x4165, 0x7475, 0x6d6f, 
+0x7461, 0x6369, 0x7542, 0x7474, 0x6e6f, 0x3c3e, 0x464d, 0x4343, 0x6c6f, 
+0x726f, 0x7542, 0x7474, 0x6e6f, 0x435f, 0x6c6f, 0x6d75, 0x736e, 0x6f43, 
+0x6e75, 0x3e74, 0x3c35, 0x4d2f, 0x4346, 0x6f43, 0x6f6c, 0x4272, 0x7475, 
+0x6f74, 0x5f6e, 0x6f43, 0x756c, 0x6e6d, 0x4373, 0x756f, 0x746e, "\076" 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_APP_ERR_CANT_CREATE_THREADS "Can't create worker threads."
+    IDS_APP_ERR_CANT_DESTROY_THREADS "Can't destroy worker threads."
+    IDS_APP_LICENSE         "This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.  You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111 USA."
+    IDS_APP_UNKNOWN_SYSTEM_ERROR "Unknown system error %d (0x%X)"
+    IDS_BAR_Crop            "Crop"
+    IDS_BAR_Hue             "Hue"
+    IDS_BAR_Levels          "Levels"
+    IDS_DOC_ERR_BAD_IMAGE_TYPE "Unsupported image type."
+END
+
+STRINGTABLE
+BEGIN
+    IDS_DOC_ERR_CANT_APPEND_PNG "Can't append Fauve data to PNG file."
+    IDS_DOC_ERR_CANT_CREATE_BITMAP "Can't create bitmap."
+    IDS_DOC_ERR_CANT_CREATE_DIB "Can't create DIB."
+    IDS_DOC_ERR_CANT_LOAD_IMAGE "Can't load image."
+    IDS_DOC_ERR_CANT_RESIZE "Resizing isn't supported."
+    IDS_DOC_ERR_CANT_SAVE_PNG "Can't save PNG file."
+    IDS_DOC_ERR_SOURCE_NOT_FOUND 
+                            "Source image file not found. Repair source image link?"
+    IDS_EDIT_CROP           "Crop"
+    IDS_EDIT_HUE            "Hue"
+    IDS_EDIT_LEVELS         "Levels"
+    IDS_EDIT_MENU           "Edit"
+    IDS_EDIT_REDO_PREFIX    "&Redo"
+    IDS_EDIT_ROTATE         "Rotate"
+    IDS_EDIT_UNDO_PREFIX    "&Undo"
+    IDS_LEVELS_RANGE_ERROR  "Minimum must be less than maximum."
+    IDS_PHASE_EXPORT_OVERWRITE_WARN 
+                            "Destination folder already contains an image sequence.\nDo you want to replace it?"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_RECDLG_CUSTOM       "Custom"
+    IDS_SOURCE_DLG_CAPTION  "Source Image Link"
+    IDS_TOOLBAR_CUSTOMIZE   "Customize..."
+    IDS_TOOLBAR_STANDARD    "Standard"
+    IDP_OLE_INIT_FAILED     "OLE initialization failed.  Make sure that the OLE libraries are the correct version."
+    IDS_EDIT_SOURCE_IMAGE   "Source Image"
+END
+
+STRINGTABLE
+BEGIN
+    IDR_MAINFRAME           "FauveEdit"
+    IDR_FauveEditTYPE       "\nFauveEdit\nFauveEdit\nFauveEdit Files (*.png; *.jpg; *.gif; *.bmp)\n.png;.jpg;.gif;.bmp\nFauveEdit.Document\nFauveEdit.Document"
+END
+
+STRINGTABLE
+BEGIN
+    ID_VIEW_CUSTOMIZE       " "
+    ID_WINDOW_MANAGER       "&Windows..."
+END
+
+STRINGTABLE
+BEGIN
+    ID_EDIT_CROP            "Edit cropping\nCrop"
+    ID_EDIT_HUE             "Edit hue\nHue"
+    ID_EDIT_LEVELS          "Edit levels\nLevels"
+    ID_EDIT_ROTATE_CW       "Rotate 90 degrees clockwise\nRotate CW"
+    ID_EDIT_SOURCE_IMAGE          "Edit source image link"
+END
+
+STRINGTABLE
+BEGIN
+    AFX_IDS_APP_TITLE       "FauveEdit"
+    AFX_IDS_IDLEMESSAGE     "Ready"
+END
+
+STRINGTABLE
+BEGIN
+    ID_INDICATOR_EXT        "EXT"
+    ID_INDICATOR_CAPS       "CAP"
+    ID_INDICATOR_NUM        "NUM"
+    ID_INDICATOR_SCRL       "SCRL"
+    ID_INDICATOR_OVR        "OVR"
+    ID_INDICATOR_REC        "REC"
+END
+
+STRINGTABLE
+BEGIN
+    ID_FILE_NEW             "Create a new document\nNew"
+    ID_FILE_OPEN            "Open an existing document\nOpen"
+    ID_FILE_CLOSE           "Close the active document\nClose"
+    ID_FILE_SAVE            "Save the active document\nSave"
+    ID_FILE_SAVE_AS         "Save the active document with a new name\nSave As"
+    ID_FILE_PAGE_SETUP      "Change the printing options\nPage Setup"
+    ID_FILE_PRINT_SETUP     "Change the printer and printing options\nPrint Setup"
+    ID_FILE_PRINT           "Print the active document\nPrint"
+    ID_FILE_PRINT_DIRECT    "Print the active document using current options\nQuick Print"
+    ID_FILE_PRINT_PREVIEW   "Display full pages\nPrint Preview"
+END
+
+STRINGTABLE
+BEGIN
+    ID_APP_ABOUT            "Display program information, version number and copyright\nAbout"
+    ID_APP_EXIT             "Quit the application; prompts to save documents\nExit"
+END
+
+STRINGTABLE
+BEGIN
+    ID_FILE_MRU_FILE1       "Open this document"
+    ID_FILE_MRU_FILE2       "Open this document"
+    ID_FILE_MRU_FILE3       "Open this document"
+    ID_FILE_MRU_FILE4       "Open this document"
+    ID_FILE_MRU_FILE5       "Open this document"
+    ID_FILE_MRU_FILE6       "Open this document"
+    ID_FILE_MRU_FILE7       "Open this document"
+    ID_FILE_MRU_FILE8       "Open this document"
+    ID_FILE_MRU_FILE9       "Open this document"
+    ID_FILE_MRU_FILE10      "Open this document"
+    ID_FILE_MRU_FILE11      "Open this document"
+    ID_FILE_MRU_FILE12      "Open this document"
+    ID_FILE_MRU_FILE13      "Open this document"
+    ID_FILE_MRU_FILE14      "Open this document"
+    ID_FILE_MRU_FILE15      "Open this document"
+    ID_FILE_MRU_FILE16      "Open this document"
+END
+
+STRINGTABLE
+BEGIN
+    ID_NEXT_PANE            "Switch to the next window pane\nNext Pane"
+    ID_PREV_PANE            "Switch back to the previous window pane\nPrevious Pane"
+END
+
+STRINGTABLE
+BEGIN
+    ID_WINDOW_NEW           "Open another window for the active document\nNew Window"
+    ID_WINDOW_ARRANGE       "Arrange icons at the bottom of the window\nArrange Icons"
+    ID_WINDOW_CASCADE       "Arrange windows so they overlap\nCascade Windows"
+    ID_WINDOW_TILE_HORZ     "Arrange windows as non-overlapping tiles\nTile Windows"
+    ID_WINDOW_TILE_VERT     "Arrange windows as non-overlapping tiles\nTile Windows"
+    ID_WINDOW_SPLIT         "Split the active window into panes\nSplit"
+END
+
+STRINGTABLE
+BEGIN
+    ID_EDIT_CLEAR           "Erase the selection\nErase"
+    ID_EDIT_CLEAR_ALL       "Erase everything\nErase All"
+    ID_EDIT_COPY            "Copy the selection and put it on the Clipboard\nCopy"
+    ID_EDIT_CUT             "Cut the selection and put it on the Clipboard\nCut"
+    ID_EDIT_FIND            "Find the specified text\nFind"
+    ID_EDIT_PASTE           "Insert Clipboard contents\nPaste"
+    ID_EDIT_REPEAT          "Repeat the last action\nRepeat"
+    ID_EDIT_REPLACE         "Replace specific text with different text\nReplace"
+    ID_EDIT_SELECT_ALL      "Select the entire document\nSelect All"
+    ID_EDIT_UNDO            "Undo the last action\nUndo"
+    ID_EDIT_REDO            "Redo the previously undone action\nRedo"
+END
+
+STRINGTABLE
+BEGIN
+    ID_VIEW_STATUS_BAR      "Show or hide the status bar\nToggle Status Bar"
+END
+
+STRINGTABLE
+BEGIN
+    AFX_IDS_SCSIZE          "Change the window size"
+    AFX_IDS_SCMOVE          "Change the window position"
+    AFX_IDS_SCMINIMIZE      "Reduce the window to an icon"
+    AFX_IDS_SCMAXIMIZE      "Enlarge the window to full size"
+    AFX_IDS_SCNEXTWINDOW    "Switch to the next document window"
+    AFX_IDS_SCPREVWINDOW    "Switch to the previous document window"
+    AFX_IDS_SCCLOSE         "Close the active window and prompts to save the documents"
+END
+
+STRINGTABLE
+BEGIN
+    AFX_IDS_SCRESTORE       "Restore the window to normal size"
+    AFX_IDS_SCTASKLIST      "Activate Task List"
+    AFX_IDS_MDICHILD        "Activate this window"
+END
+
+STRINGTABLE
+BEGIN
+    AFX_IDS_PREVIEW_CLOSE   "Close print preview mode\nCancel Preview"
+END
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE 9, 1
+#include "res\FauveEdit.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"      // Standard components
+#include "afxprint.rc"    // printing/print preview resources
+#if !defined(_AFXDLL)
+#include "afxribbon.rc"        // MFC ribbon and control bar resources
+#endif
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
