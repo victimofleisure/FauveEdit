@@ -9,6 +9,7 @@
 		rev		date	comments
         00		26nov22	initial version
 		01		10jan25	add option to reuse histogram
+		02		23jan25	apply hue shift to bins instead of pixels
 
 */
 
@@ -92,6 +93,21 @@ void CFauveTiled::FauveMulti(bool bReuseHistogram)
 			}
 		}
 	}
+	// apply hue shift to bins; assume fewer bins than output pixels
+	for (int iChan = 0; iChan < COLOR_CHANNELS; iChan++) {	// for each color channel
+		const UINT	*pBinFirst = m_arrBin[iChan];
+		const UINT	*pBinLast = pBinFirst + COLOR_VALUES;
+		const UINT	*pBinTarget = pBinFirst + m_arrHue[iChan];
+		const UINT	*pBinCur = pBinTarget;
+		UINT	*pIdx = m_arrIdx[iChan];
+		while (pBinCur < pBinLast) {	// copy from target to last
+			*pIdx++ = *pBinCur++;
+		}
+		pBinCur = pBinFirst;
+		while (pBinCur < pBinTarget) {	// copy from first to target
+			*pIdx++ = *pBinCur++;
+		}
+	}
 	m_nRenderStage = RST_TRANSLATE;
 	theApp.m_LoopTiler.Run();	// compute output pixels for each tile in parallel
 }
@@ -137,10 +153,10 @@ void CFauveTiled::FauveCallback(int iThread)
 			const UINT	*pInPixelEnd = pInPixel + nCols;
 			while (pInPixel < pInPixelEnd) {	// for each input column
 				UINT	clr = *pInPixel++;	// get input pixel
-				BYTE	r = GET_XRGB_R(clr) + m_arrHue[C_R];
-				BYTE	g = GET_XRGB_G(clr) + m_arrHue[C_G];
-				BYTE	b = GET_XRGB_B(clr) + m_arrHue[C_B];
-				clr = MAKE_XRGB(m_arrBin[C_R][r], m_arrBin[C_G][g], m_arrBin[C_B][b]);
+				BYTE	r = GET_XRGB_R(clr);
+				BYTE	g = GET_XRGB_G(clr);
+				BYTE	b = GET_XRGB_B(clr);
+				clr = MAKE_XRGB(m_arrIdx[C_R][r], m_arrIdx[C_G][g], m_arrIdx[C_B][b]);
 				*pOutPixel++ = clr;	// set output pixel
 			}
 			pInRow += nInStride;

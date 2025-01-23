@@ -9,6 +9,7 @@
 		rev		date	comments
         00		24sep22	initial version
 		01		10jan25	add option to reuse histogram
+		02		23jan25	apply hue shift to bins instead of pixels
 
 */
 
@@ -53,11 +54,10 @@ void CFauve::FauveRef(bool bReuseHistogram)
 			}
 		}
 	}
-else printf("reuse hist\n");//@@@
 	for (int y = 0; y < sz.cy; y++) {	// for each output row
 		for (int x = 0; x < sz.cx; x++) {	// for each output column
 			UINT	clr = m_dibIn.GetPixel(m_rCrop.left + x, m_rCrop.top + y);	// get input pixel
-			BYTE	r = GET_XRGB_R(clr) + m_arrHue[C_R];
+			BYTE	r = GET_XRGB_R(clr) + m_arrHue[C_R];	// apply hue shift
 			BYTE	g = GET_XRGB_G(clr) + m_arrHue[C_G];
 			BYTE	b = GET_XRGB_B(clr) + m_arrHue[C_B];
 			clr = MAKE_XRGB(m_arrBin[C_R][r], m_arrBin[C_G][g], m_arrBin[C_B][b]);
@@ -124,6 +124,21 @@ void CFauve::FauveFast(bool bReuseHistogram)
 			}
 		}
 	}
+	// apply hue shift to bins; assume fewer bins than output pixels
+	for (int iChan = 0; iChan < COLOR_CHANNELS; iChan++) {	// for each color channel
+		const UINT	*pBinFirst = m_arrBin[iChan];
+		const UINT	*pBinLast = pBinFirst + COLOR_VALUES;
+		const UINT	*pBinTarget = pBinFirst + m_arrHue[iChan];
+		const UINT	*pBinCur = pBinTarget;
+		UINT	*pIdx = m_arrIdx[iChan];
+		while (pBinCur < pBinLast) {	// copy from target to last
+			*pIdx++ = *pBinCur++;
+		}
+		pBinCur = pBinFirst;
+		while (pBinCur < pBinTarget) {	// copy from first to target
+			*pIdx++ = *pBinCur++;
+		}
+	}
 	pInRow = pInStartRow;
 	UINT	*pOutPixel = static_cast<UINT *>(m_dibOut.GetBits());
 	for (int y = 0; y < sz.cy; y++) {	// for each output row
@@ -131,10 +146,10 @@ void CFauve::FauveFast(bool bReuseHistogram)
 		const UINT	*pInPixelEnd = pInPixel + sz.cx;
 		while (pInPixel < pInPixelEnd) {	// for each input column
 			UINT	clr = *pInPixel++;	// get input pixel
-			BYTE	r = GET_XRGB_R(clr) + m_arrHue[C_R];
-			BYTE	g = GET_XRGB_G(clr) + m_arrHue[C_G];
-			BYTE	b = GET_XRGB_B(clr) + m_arrHue[C_B];
-			clr = MAKE_XRGB(m_arrBin[C_R][r], m_arrBin[C_G][g], m_arrBin[C_B][b]);
+			BYTE	r = GET_XRGB_R(clr);
+			BYTE	g = GET_XRGB_G(clr);
+			BYTE	b = GET_XRGB_B(clr);
+			clr = MAKE_XRGB(m_arrIdx[C_R][r], m_arrIdx[C_G][g], m_arrIdx[C_B][b]);
 			*pOutPixel++ = clr;	// set output pixel
 		}
 		pInRow += nInStride;
