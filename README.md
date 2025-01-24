@@ -12,7 +12,9 @@ The project was originally a [Freeframe plugin](https://github.com/victimofleisu
 * Video export
 * Parallel processing to improve render speed
 
-More recently the application was ported to Direct2D for improved scaling performance and quality.
+in 2025 the application's view was ported from GDI to Direct2D 1.1 for improved scaling performance and quality. Consequently Windows 7 SP1 is the oldest supported version.
+
+The code compiles cleanly in Visual Studio 2012 and 2019. Wrapper classes for ID2D1DeviceContext are included.
 
 # Links
 
