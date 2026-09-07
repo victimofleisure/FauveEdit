@@ -9,6 +9,7 @@
 		rev		date	comments
         00		29apr20	initial version
 		01		17jan25	port to Direct2D
+		02		07sep26	fix hard-coded color channel count
 
 */
 
@@ -58,7 +59,7 @@ protected:
 	bool	m_bIsAnimating;		// true if animating
 	bool	m_bIsResizePending;	// true if resize is pending
 	int		m_iFrame;			// frame index while animating
-	BYTE	m_arrPreAnimHue[3];	// pre-animation hue rotation state
+	BYTE	m_arrPreAnimHue[CFauve::COLOR_CHANNELS];	// pre-animation hue rotation state
 
 	void	Update();
 	void	OnBackgroundColorChange();

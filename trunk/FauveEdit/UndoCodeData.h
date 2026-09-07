@@ -9,6 +9,7 @@
 		rev		date	comments
         00      19nov22	initial version
         01      20jan25	add edit source image
+		02		07sep26	add invert color
 
 		undo code data
  
@@ -16,6 +17,7 @@
 
 UCODE_DEF(CROP)
 UCODE_DEF(ROTATE)
+UCODE_DEF(INVERT)
 UCODE_DEF(LEVELS)
 UCODE_DEF(HUE)
 UCODE_DEF(SOURCE_IMAGE)

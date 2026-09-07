@@ -10,6 +10,7 @@
         00		29apr20	initial version
 		01		10jan25	add option to reuse histogram
 		02		20jan25	add edit source image
+		03		07sep26	add invert color
 
 */
 
@@ -59,7 +60,7 @@ public:
 			BYTE	nHueG;		// green hue shift
 			BYTE	nHueB;		// blue hue shift
 			BYTE	nUnused;	// reserved, must be zero
-			BYTE	nDibRot;	// bitmap rotation in quadrants
+			BYTE	nFlags;		// see fauve flags enum
 			BYTE	nPad;		// reserved, must be zero
 		};
 		FIXED	fixed;			// fixed-length portion of Fauve data
@@ -75,7 +76,11 @@ public:
 // Constants
 	enum {
 		FAUVE_DATA_SIGNATURE = 0xFAE92022,
-		FAUVE_DATA_VERSION = 0,
+		FAUVE_DATA_VERSION = 1,
+	};
+	enum {	// define fauve flags
+		FF_ROTATION		= 0x03,	// bitmap rotation in clockwise quadrants
+		FF_INVERT		= 0x04,	// if non-zero, invert output colors
 	};
 	static const UINT	FAUVE_CHUNK_TYPE;
 
@@ -158,6 +163,18 @@ bool CFauvePng::ReadFromPngFile(LPCTSTR pszPngPath, FAUVE_DATA::FIXED& dataOut, 
 	return true;
 }
 
+void CFauveDoc::SetFauvePngFlags(BYTE nFlags)
+{
+	m_nDibRot = nFlags & CFauvePng::FF_ROTATION;
+	m_bInvertColor = (nFlags & CFauvePng::FF_INVERT) != 0;
+}
+
+void CFauveDoc::GetFauvePngFlags(BYTE& nFlags) const
+{
+	nFlags = (m_nDibRot & CFauvePng::FF_ROTATION) |
+		(m_bInvertColor ? CFauvePng::FF_INVERT : 0);
+}
+
 // CFauveDoc
 
 const int CFauveDoc::m_arrUndoTitleId[UNDO_CODES] = {
@@ -179,6 +196,7 @@ CFauveDoc::CFauveDoc()
 	m_arrLuma[L_WHITE] = BYTE_MAX;
 	ZeroMemory(m_arrHue, sizeof(m_arrHue));
 	m_bGotFauveChunk = false;
+	m_bInvertColor = false;
 	m_nDibRot = 0;
 	SetUndoManager(&m_undoMgr);
 	m_undoMgr.SetRoot(this);
@@ -214,13 +232,18 @@ BOOL CFauveDoc::OnOpenDocument(LPCTSTR lpszPathName)
 	if (!CDocument::OnOpenDocument(lpszPathName))
 		return false;
 	if (CFauvePng::ReadFromPngFile(lpszPathName, data, m_sOrigPath)) {
+		if (data.nVersion > CFauvePng::FAUVE_DATA_VERSION) {
+			CString	sMsg;
+			AfxFormatString1(sMsg, IDS_DOC_NEWER_VERSION, lpszPathName);
+			AfxMessageBox(sMsg);
+		}
 		m_rCrop = data.rCrop;
 		m_arrLuma[L_BLACK] = data.nLumaMin;
 		m_arrLuma[L_WHITE] = data.nLumaMax;
 		m_arrHue[C_R] = data.nHueR;
 		m_arrHue[C_G] = data.nHueG;
 		m_arrHue[C_B] = data.nHueB;
-		m_nDibRot = data.nDibRot;
+		SetFauvePngFlags(data.nFlags);
 		m_bGotFauveChunk = true;
 	} else {
 		m_sOrigPath = lpszPathName;
@@ -235,6 +258,47 @@ BOOL CFauveDoc::OnOpenDocument(LPCTSTR lpszPathName)
 		SetModifiedFlag();	// updating link is a modification
 	}
 	return ReadSourceImage(m_sOrigPath);
+}
+
+BOOL CFauveDoc::OnSaveDocument(LPCTSTR lpszPathName)
+{
+	if (!CDocument::OnSaveDocument(lpszPathName))
+		return false;
+	// convert from 32 to 24 bits per pixel
+	CDibEx	dibTmp;
+	CSize	sz(m_dibOut.GetSize());
+	if (!dibTmp.Create(sz.cx, sz.cy, BPP_24)) {
+		AfxMessageBox(IDS_DOC_ERR_CANT_CREATE_DIB);
+		return false;
+	}
+	for (int y = 0; y < sz.cy; y++) {
+		for (int x = 0; x < sz.cx; x++) {
+			dibTmp.SetPixel(x, y, m_dibOut.GetPixel(x, y));
+		}
+	}
+	CImage	image;
+	image.Attach(dibTmp);
+	HRESULT	hr = image.Save(lpszPathName, Gdiplus::ImageFormatPNG);
+	image.Detach();	// detach before returning
+	if (FAILED(hr)) {
+		AfxMessageBox(IDS_DOC_ERR_CANT_SAVE_PNG);
+		return false;
+	}
+	// append fauve data to PNG file
+	CFauvePng::FAUVE_DATA::FIXED	data;
+	ZeroMemory(&data, sizeof(data));
+	data.rCrop = m_rCrop;
+	data.nLumaMin = m_arrLuma[L_BLACK];
+	data.nLumaMax = m_arrLuma[L_WHITE];
+	data.nHueR = m_arrHue[C_R];
+	data.nHueG = m_arrHue[C_G];
+	data.nHueB = m_arrHue[C_B];
+	GetFauvePngFlags(data.nFlags);
+	if (!CFauvePng::AppendToPngFile(lpszPathName, data, m_sOrigPath)) {
+		AfxMessageBox(IDS_DOC_ERR_CANT_APPEND_PNG);
+		return false;
+	}
+	return true;
 }
 
 bool CFauveDoc::ReadSourceImage(CString sImgPath)
@@ -285,47 +349,6 @@ bool CFauveDoc::ReadSourceImage(CString sImgPath)
 	}
 	UpdateFauve();
 	UpdateHistogram();
-	return true;
-}
-
-BOOL CFauveDoc::OnSaveDocument(LPCTSTR lpszPathName)
-{
-	if (!CDocument::OnSaveDocument(lpszPathName))
-		return false;
-	// convert from 32 to 24 bits per pixel
-	CDibEx	dibTmp;
-	CSize	sz(m_dibOut.GetSize());
-	if (!dibTmp.Create(sz.cx, sz.cy, BPP_24)) {
-		AfxMessageBox(IDS_DOC_ERR_CANT_CREATE_DIB);
-		return false;
-	}
-	for (int y = 0; y < sz.cy; y++) {
-		for (int x = 0; x < sz.cx; x++) {
-			dibTmp.SetPixel(x, y, m_dibOut.GetPixel(x, y));
-		}
-	}
-	CImage	image;
-	image.Attach(dibTmp);
-	HRESULT	hr = image.Save(lpszPathName, Gdiplus::ImageFormatPNG);
-	image.Detach();	// detach before returning
-	if (FAILED(hr)) {
-		AfxMessageBox(IDS_DOC_ERR_CANT_SAVE_PNG);
-		return false;
-	}
-	// append fauve data to PNG file
-	CFauvePng::FAUVE_DATA::FIXED	data;
-	ZeroMemory(&data, sizeof(data));
-	data.rCrop = m_rCrop;
-	data.nLumaMin = m_arrLuma[L_BLACK];
-	data.nLumaMax = m_arrLuma[L_WHITE];
-	data.nHueR = m_arrHue[C_R];
-	data.nHueG = m_arrHue[C_G];
-	data.nHueB = m_arrHue[C_B];
-	data.nDibRot = m_nDibRot;
-	if (!CFauvePng::AppendToPngFile(lpszPathName, data, m_sOrigPath)) {
-		AfxMessageBox(IDS_DOC_ERR_CANT_APPEND_PNG);
-		return false;
-	}
 	return true;
 }
 
@@ -504,10 +527,19 @@ void CFauveDoc::Rotate(int nQuadrants)
 	NotifyUndoableEdit(0, UCODE_ROTATE);
 	RotateDibFast(m_dibIn, nQuadrants);
 	RotateSubrect(m_rCrop, m_dibIn.GetSize(), nQuadrants);
-	m_nDibRot = (m_nDibRot + nQuadrants) & 3;
+	m_nDibRot = (m_nDibRot + nQuadrants) & MAX_QUADRANT;
 	SetModifiedFlag();
 	UpdateFauve();
 	UpdateAllViews(NULL, HINT_ROTATE);
+}
+
+void CFauveDoc::SetInvert(bool bInvert)
+{
+	NotifyUndoableEdit(0, UCODE_INVERT);
+	m_bInvertColor = bInvert;
+	SetModifiedFlag();
+	UpdateFauve();
+	UpdateAllViews(NULL, HINT_INVERT);
 }
 
 void CFauveDoc::UpdateFauve(bool bReuseHistogram)
@@ -545,7 +577,7 @@ void CFauveDoc::UpdateHistogram()
 		BYTE	r = GET_XRGB_R(clr);
 		BYTE	g = GET_XRGB_G(clr);
 		BYTE	b = GET_XRGB_B(clr);
-		DWORD	nLuma = Round((r + g + b) / 3.0);
+		DWORD	nLuma = Round((r + g + b) / double(COLOR_CHANNELS));
 		m_histogram.m_arrLuma[nLuma]++;
 	}
 	const int	nVals = _countof(m_histogram.m_arrLuma);
@@ -560,7 +592,7 @@ void CFauveDoc::UpdateHistogram()
 
 void CFauveDoc::RotateDibRef(const CDibEx& dibIn, CDibEx& dibOut, int nQuadrants)
 {
-	nQuadrants &= 3;	// wrap quadrant count; positive is counterclockwise
+	nQuadrants &= MAX_QUADRANT;	// wrap quadrant count; positive is counterclockwise
 	if (!nQuadrants)	// if zero quadrants
 		return;	// nothing to do
 	CSize	sz = dibIn.GetSize();
@@ -607,7 +639,7 @@ void CFauveDoc::RotateDibRef(CDibEx& dib, int nQuadrants)
 void CFauveDoc::RotateDibFast(const CDibEx& dibIn, CDibEx& dibOut, int nQuadrants)
 {
 	ASSERT(dibIn.GetPixelFormat() == CDibEx::PF_BPP32);	// 32-bit color depth only
-	nQuadrants &= 3;	// wrap quadrant count; positive is counterclockwise
+	nQuadrants &= MAX_QUADRANT;	// wrap quadrant count; positive is counterclockwise
 	if (!nQuadrants)	// if zero quadrants
 		return;	// nothing to do
 	CSize	sz = dibIn.GetSize();
@@ -670,7 +702,7 @@ void CFauveDoc::RotateSubrect(CRect& rect, const CSize& szParent, int nQuadrants
 		return;	// nothing to do
 	CSize	sz(rect.Size());
 	CPoint	pt;
-	switch (nQuadrants & 3) {
+	switch (nQuadrants & MAX_QUADRANT) {
 	case 1:	// rotate 90 degrees CCW
 		pt = CPoint(rect.top, szParent.cy - rect.left - sz.cx);
 		rect = CRect(pt, CSize(sz.cy, sz.cx));	// swap axes of size
@@ -712,12 +744,24 @@ void CFauveDoc::SaveRotate(CUndoState& State)
 void CFauveDoc::RestoreRotate(const CUndoState& State)
 {
 	int nPrevRot = State.m_Val.p.x.c.al;
-	int	nDeltaRot = (nPrevRot - m_nDibRot) & 3;
+	int	nDeltaRot = (nPrevRot - m_nDibRot) & MAX_QUADRANT;
 	m_nDibRot = static_cast<BYTE>(nPrevRot);
 	RotateDibFast(m_dibIn, nDeltaRot);
 	RotateSubrect(m_rCrop, m_dibIn.GetSize(), nDeltaRot);
 	UpdateFauve();
 	UpdateAllViews(NULL, HINT_ROTATE);
+}
+
+void CFauveDoc::SaveInvert(CUndoState& State)
+{
+	State.m_Val.p.x.c.al = m_bInvertColor;
+}
+
+void CFauveDoc::RestoreInvert(const CUndoState& State)
+{
+	m_bInvertColor = State.m_Val.p.x.c.al != 0;
+	UpdateFauve();
+	UpdateAllViews(NULL, HINT_INVERT);
 }
 
 void CFauveDoc::SaveLevels(CUndoState& State)
@@ -773,6 +817,9 @@ void CFauveDoc::SaveUndoState(CUndoState& State)
 	case UCODE_ROTATE:
 		SaveRotate(State);
 		break;
+	case UCODE_INVERT:
+		SaveInvert(State);
+		break;
 	case UCODE_LEVELS:
 		SaveLevels(State);
 		break;
@@ -793,6 +840,9 @@ void CFauveDoc::RestoreUndoState(const CUndoState& State)
 		break;
 	case UCODE_ROTATE:
 		RestoreRotate(State);
+		break;
+	case UCODE_INVERT:
+		RestoreInvert(State);
 		break;
 	case UCODE_LEVELS:
 		RestoreLevels(State);
@@ -923,6 +973,8 @@ BEGIN_MESSAGE_MAP(CFauveDoc, CDocument)
 	ON_UPDATE_COMMAND_UI(ID_EDIT_UNDO, OnUpdateEditUndo)
 	ON_UPDATE_COMMAND_UI(ID_EDIT_REDO, OnUpdateEditRedo)
 	ON_COMMAND(ID_EDIT_ROTATE_CW, OnEditRotateCW)
+	ON_COMMAND(ID_EDIT_INVERT, OnEditInvert)
+	ON_UPDATE_COMMAND_UI(ID_EDIT_INVERT, OnUpdateEditInvert)
 	ON_COMMAND(ID_EDIT_CROP, OnEditCrop)
 	ON_COMMAND(ID_EDIT_LEVELS, OnEditLevels)
 	ON_COMMAND(ID_EDIT_HUE, OnEditHue)
@@ -933,6 +985,16 @@ END_MESSAGE_MAP()
 void CFauveDoc::OnEditRotateCW()
 {
 	Rotate(-1);
+}
+
+void CFauveDoc::OnEditInvert()
+{
+	SetInvert(!m_bInvertColor);
+}
+
+void CFauveDoc::OnUpdateEditInvert(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(m_bInvertColor);
 }
 
 void CFauveDoc::OnEditUndo()
@@ -1041,7 +1103,7 @@ bool CFauveDoc::ExportVideo()
 	if (!dlgProgress.Create())
 		AfxThrowNotSupportedException();
 	dlgProgress.SetRange(0, nFrames);
-	BYTE	arrHueSave[3];
+	BYTE	arrHueSave[COLOR_CHANNELS];
 	memcpy(arrHueSave, m_arrHue, sizeof(m_arrHue));
 	int	iFrame;
 	for (iFrame = 0; iFrame < nFrames; iFrame++) {
@@ -1050,7 +1112,7 @@ bool CFauveDoc::ExportVideo()
 			break;
 		}
 		double	fScale = iFrame / theApp.m_options.m_fAnimationFrameRate;
-		for (int iChan = 0; iChan < 3; iChan++) {
+		for (int iChan = 0; iChan < COLOR_CHANNELS; iChan++) {
 			m_arrHue[iChan] = arrHueSave[iChan] + BYTE(Round(theApp.m_options.m_fAnimationHueRate[iChan] * fScale));
 		}
 		UpdateFauve();

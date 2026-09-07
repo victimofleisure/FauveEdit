@@ -10,6 +10,7 @@
         00		29apr20	initial version
 		01		10jan25	add option to reuse histogram
 		02		20jan25	add edit source image
+		03		07sep26	add invert color
 
 */
 
@@ -37,6 +38,7 @@ public:
 		HINT_ROTATE,
 		HINT_LEVELS,
 		HINT_HUE,
+		HINT_INVERT,
 		HINT_OPTIONS,
 	};
 	enum {	// bits per pixel
@@ -45,6 +47,7 @@ public:
 	};
 	enum {
 		HISTOGRAM_LEVELS = 256,	// number of luma levels in histogram
+		MAX_QUADRANT = 3,	// max quadrant index, for rotation by quadrant
 	};
 	static const int m_arrUndoTitleId[UNDO_CODES];
 
@@ -83,8 +86,11 @@ public:
 	void	SetLevels(BYTE nLumaMin, BYTE nLumaMax, CView *pSender = NULL);
 	void	SetHue(int iChannel, BYTE nHueShift, CView *pSender = NULL);
 	void	SetHues(BYTE nRed, BYTE nGreen, BYTE nBlue, CView *pSender = NULL);
+	void	SetInvert(bool bInvert);
 	void	Rotate(int nQuadrants = 1);
 	bool	SetSourceImage(CString& sPath);
+	void	SetFauvePngFlags(BYTE nFlags);
+	void	GetFauvePngFlags(BYTE& nFlags) const;
 
 // Operations
 	void	UpdateFauve(bool bReuseHistogram = false);
@@ -136,6 +142,8 @@ public:
 	void	RestoreCrop(const CUndoState& State);
 	void	SaveRotate(CUndoState& State);
 	void	RestoreRotate(const CUndoState& State);
+	void	SaveInvert(CUndoState& State);
+	void	RestoreInvert(const CUndoState& State);
 	void	SaveLevels(CUndoState& State);
 	void	RestoreLevels(const CUndoState& State);
 	void	SaveHue(CUndoState& State);
@@ -156,6 +164,8 @@ protected:
 	afx_msg void OnUpdateEditUndo(CCmdUI *pCmdUI);
 	afx_msg void OnUpdateEditRedo(CCmdUI *pCmdUI);
 	afx_msg void OnEditRotateCW();
+	afx_msg void OnEditInvert();
+	afx_msg void OnUpdateEditInvert(CCmdUI *pCmdUI);
 	afx_msg void OnEditCrop();
 	afx_msg void OnEditLevels();
 	afx_msg void OnEditHue();

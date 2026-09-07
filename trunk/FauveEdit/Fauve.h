@@ -10,8 +10,11 @@
         00		24sep22	initial version
 		01		10jan25	add option to reuse histogram
 		02		23jan25	add bins with hue shift applied
+		03		07sep26	add invert color
 
 */
+
+#pragma once
 
 #include "DibEx.h"
 
@@ -51,6 +54,7 @@ public:
 	BYTE	m_arrHue[COLOR_CHANNELS];	// array of per-channel color hue shifts
 	UINT	m_arrBin[COLOR_CHANNELS][COLOR_VALUES];	// histogram of each color channel
 	UINT	m_arrIdx[COLOR_CHANNELS][COLOR_VALUES];	// bins rotated to account for hue shift
+	bool	m_bInvertColor;	// true if inverting output colors
 
 // Operations
 	void	FauveRef(bool bReuseHistogram = false);

@@ -10,6 +10,7 @@
         00		24sep22	initial version
 		01		10jan25	add option to reuse histogram
 		02		23jan25	apply hue shift to bins instead of pixels
+		03		07sep26	add invert color
 
 */
 
@@ -25,8 +26,8 @@ void CFauve::FauveRef(bool bReuseHistogram)
 	CSize	sz(m_rCrop.Size());
 	if (!bReuseHistogram) {
 		ZeroMemory(m_arrBin, sizeof(m_arrBin));
-		int	nLumaMin = m_arrLuma[L_BLACK] * 3 - 1;	// matches Round((r + g + b) / 3.0)
-		int	nLumaMax = m_arrLuma[L_WHITE] * 3 + 1;
+		int	nLumaMin = m_arrLuma[L_BLACK] * COLOR_CHANNELS - 1;	// matches Round((r + g + b) / 3.0)
+		int	nLumaMax = m_arrLuma[L_WHITE] * COLOR_CHANNELS + 1;
 		for (int y = m_rCrop.top; y < m_rCrop.bottom; y++) {	// for each input row
 			for (int x = m_rCrop.left; x < m_rCrop.right; x++) {	// for each input column
 				UINT	clr = m_dibIn.GetPixel(x, y);	// get input pixel
@@ -41,6 +42,7 @@ void CFauve::FauveRef(bool bReuseHistogram)
 				}
 			}
 		}
+		BYTE	nInvertMask = m_bInvertColor ? 0xff : 0;
 		for (int iChan = 0; iChan < COLOR_CHANNELS; iChan++) {	// for each color channel
 			UINT	*pSample = m_arrBin[iChan];
 			UINT	nMaxVal = 0;
@@ -50,7 +52,7 @@ void CFauve::FauveRef(bool bReuseHistogram)
 					nMaxVal = pSample[iVal];	// update maximum
 			}
 			for (iVal = 0; iVal < COLOR_VALUES; iVal++) {	// for each color value
-				pSample[iVal] = Round(double(pSample[iVal]) / nMaxVal * 0xff);	// normalize sample
+				pSample[iVal] = Round(double(pSample[iVal]) / nMaxVal * 0xff) ^ nInvertMask;	// normalize sample
 			}
 		}
 	}
@@ -89,8 +91,8 @@ void CFauve::FauveFast(bool bReuseHistogram)
 		while (pBin < pBinEnd) {
 			*pBin++ = 0;
 		}
-		int	nLumaMin = m_arrLuma[L_BLACK] * 3 - 1;	// matches Round((r + g + b) / 3.0)
-		int	nLumaMax = m_arrLuma[L_WHITE] * 3 + 1;
+		int	nLumaMin = m_arrLuma[L_BLACK] * COLOR_CHANNELS - 1;	// matches Round((r + g + b) / 3.0)
+		int	nLumaMax = m_arrLuma[L_WHITE] * COLOR_CHANNELS + 1;
 		int	y;
 		for (y = 0; y < sz.cy; y++) {	// for each input row
 			const UINT	*pInPixel = pInRow + m_rCrop.left;
@@ -109,6 +111,7 @@ void CFauve::FauveFast(bool bReuseHistogram)
 			}
 			pInRow += nInStride;
 		}
+		BYTE	nInvertMask = m_bInvertColor ? 0xff : 0;
 		for (int iChan = 0; iChan < COLOR_CHANNELS; iChan++) {	// for each color channel
 			pBin = m_arrBin[iChan];
 			pBinEnd = pBin + COLOR_VALUES;
@@ -120,7 +123,7 @@ void CFauve::FauveFast(bool bReuseHistogram)
 			}
 			pBin = m_arrBin[iChan];
 			while (pBin < pBinEnd) {	// for each color value
-				*pBin++ = Round(double(*pBin) / nMaxVal * 0xff);	// normalize sample
+				*pBin++ = Round(double(*pBin) / nMaxVal * 0xff) ^ nInvertMask;	// normalize sample
 			}
 		}
 	}

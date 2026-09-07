@@ -10,6 +10,7 @@
         00		26nov22	initial version
 		01		10jan25	add option to reuse histogram
 		02		23jan25	apply hue shift to bins instead of pixels
+		03		07sep26	add invert color
 
 */
 
@@ -78,6 +79,7 @@ void CFauveTiled::FauveMulti(bool bReuseHistogram)
 				*pBinOut++ += *pBinIn++;
 			}
 		}
+		BYTE	nInvertMask = m_bInvertColor ? 0xff : 0;
 		for (int iChan = 0; iChan < COLOR_CHANNELS; iChan++) {	// for each color channel
 			pBin = m_arrBin[iChan];
 			pBinEnd = pBin + COLOR_VALUES;
@@ -89,7 +91,7 @@ void CFauveTiled::FauveMulti(bool bReuseHistogram)
 			}
 			pBin = m_arrBin[iChan];
 			while (pBin < pBinEnd) {	// for each color value
-				*pBin++ = Round(double(*pBin) / nMaxVal * 0xff);	// normalize sample
+				*pBin++ = Round(double(*pBin) / nMaxVal * 0xff) ^ nInvertMask;	// normalize sample
 			}
 		}
 	}

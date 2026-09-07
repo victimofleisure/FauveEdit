@@ -190,6 +190,7 @@ BEGIN
         MENUITEM "&Redo",                       ID_EDIT_REDO
         MENUITEM SEPARATOR
         MENUITEM "R&otate CW",                  ID_EDIT_ROTATE_CW
+        MENUITEM "&Invert",                     ID_EDIT_INVERT
         MENUITEM SEPARATOR
         MENUITEM "&Crop...",                    ID_EDIT_CROP
         MENUITEM "&Levels...",                  ID_EDIT_LEVELS
@@ -267,6 +268,7 @@ END
 
 IDR_MAINFRAME ACCELERATORS
 BEGIN
+    VK_F5,          ID_EDIT_ANIMATE,        VIRTKEY, NOINVERT
     "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
     VK_INSERT,      ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
     VK_DELETE,      ID_EDIT_CUT,            VIRTKEY, SHIFT, NOINVERT
@@ -284,7 +286,7 @@ BEGIN
     VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT, NOINVERT
     "O",            ID_TOOLS_OPTIONS,       VIRTKEY, SHIFT, CONTROL, NOINVERT
     VK_F11,         ID_WINDOW_FULL_SCREEN,  VIRTKEY, NOINVERT
-    VK_F5,          ID_EDIT_ANIMATE,        VIRTKEY, NOINVERT
+    "I",            ID_EDIT_INVERT,         VIRTKEY, CONTROL, NOINVERT
 END
 
 
@@ -573,20 +575,22 @@ BEGIN
     IDS_EDIT_MENU           "Edit"
     IDS_EDIT_REDO_PREFIX    "&Redo"
     IDS_EDIT_ROTATE         "Rotate"
+    IDS_EDIT_SOURCE_IMAGE   "Source Image"
     IDS_EDIT_UNDO_PREFIX    "&Undo"
     IDS_LEVELS_RANGE_ERROR  "Minimum must be less than maximum."
-    IDS_PHASE_EXPORT_OVERWRITE_WARN 
-                            "Destination folder already contains an image sequence.\nDo you want to replace it?"
 END
 
 STRINGTABLE
 BEGIN
+    IDS_PHASE_EXPORT_OVERWRITE_WARN 
+                            "Destination folder already contains an image sequence.\nDo you want to replace it?"
     IDS_RECDLG_CUSTOM       "Custom"
     IDS_SOURCE_DLG_CAPTION  "Source Image Link"
     IDS_TOOLBAR_CUSTOMIZE   "Customize..."
     IDS_TOOLBAR_STANDARD    "Standard"
     IDP_OLE_INIT_FAILED     "OLE initialization failed.  Make sure that the OLE libraries are the correct version."
-    IDS_EDIT_SOURCE_IMAGE   "Source Image"
+    IDS_EDIT_INVERT         "Invert"
+    IDS_DOC_NEWER_VERSION   "'%1' is from a newer document version. Some of its features may not be supported."
 END
 
 STRINGTABLE
@@ -599,6 +603,7 @@ STRINGTABLE
 BEGIN
     ID_VIEW_CUSTOMIZE       " "
     ID_WINDOW_MANAGER       "&Windows..."
+    ID_EDIT_INVERT          "Invert output colors"
 END
 
 STRINGTABLE
@@ -607,7 +612,7 @@ BEGIN
     ID_EDIT_HUE             "Edit hue\nHue"
     ID_EDIT_LEVELS          "Edit levels\nLevels"
     ID_EDIT_ROTATE_CW       "Rotate 90 degrees clockwise\nRotate CW"
-    ID_EDIT_SOURCE_IMAGE          "Edit source image link"
+    ID_EDIT_SOURCE_IMAGE    "Edit source image link"
 END
 
 STRINGTABLE

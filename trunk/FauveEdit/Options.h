@@ -9,10 +9,13 @@
 		rev		date	comments
         00      27dec22	initial version
         01      18jan25	add use threads accessor
+		02		07sep26	fix hard-coded color channel count
 
 */
 
 #pragma once
+
+#include "Fauve.h"
 
 class COptions {
 public:
@@ -27,7 +30,7 @@ public:
 	int		m_nThreadCount;		// custom thread count
 	COLORREF	m_clrBackground;	// background color
 	float	m_fAnimationFrameRate;	// in frames per second
-	float	m_fAnimationHueRate[3];	// hue rotation rates for RGB, in color steps per second
+	float	m_fAnimationHueRate[CFauve::COLOR_CHANNELS];	// hue rotation rates for RGB, in color steps per second
 	void	Store();
 	void	Load();
 	int		GetThreadCount() const;

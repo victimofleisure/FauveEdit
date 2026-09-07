@@ -9,6 +9,7 @@
 		rev		date	comments
         00		29apr20	initial version
 		01		17jan25	port to Direct2D
+		02		07sep26	fix hard-coded color channel count
 
 */
 
@@ -221,7 +222,7 @@ void CFauveView::OnTimer(UINT_PTR nIDEvent)
 	if (nIDEvent == ANIMATION_TIMER) {
 		CFauveDoc	*pDoc = GetDocument();
 		double	fScale = m_iFrame / theApp.m_options.m_fAnimationFrameRate;
-		for (int iChan = 0; iChan < 3; iChan++) {
+		for (int iChan = 0; iChan < CFauve::COLOR_CHANNELS; iChan++) {
 			pDoc->m_arrHue[iChan] = m_arrPreAnimHue[iChan] + BYTE(Round(theApp.m_options.m_fAnimationHueRate[iChan] * fScale));
 		}
 		pDoc->UpdateFauve(true);	// reuse histogram

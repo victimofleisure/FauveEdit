@@ -9,8 +9,11 @@
 		rev		date	comments
         00		26nov22	initial version
 		01		10jan25	add option to reuse histogram
+		02		07sep26	fix missing header guard
 
 */
+
+#pragma once
 
 #include "Fauve.h"
 #include "ArrayEx.h"
