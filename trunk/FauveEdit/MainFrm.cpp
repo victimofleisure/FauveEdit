@@ -10,6 +10,7 @@
         00		29apr20	initial version
 		01		15jan25	add update options methods
         02		02oct26	add histogram bar
+		03		06oct26	make app look an index instead of a resource ID
 
 */
 
@@ -36,18 +37,6 @@ const int  iMaxUserToolbars = 10;
 const UINT uiFirstUserToolBarId = ID_APP_DOCKING_BAR_LAST + 1;
 const UINT uiLastUserToolBarId = uiFirstUserToolBarId + iMaxUserToolbars - 1;
 
-BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWndEx)
-	ON_WM_CREATE()
-	ON_COMMAND(ID_WINDOW_MANAGER, &CMainFrame::OnWindowManager)
-	ON_COMMAND(ID_VIEW_CUSTOMIZE, &CMainFrame::OnViewCustomize)
-	ON_REGISTERED_MESSAGE(AFX_WM_CREATETOOLBAR, &CMainFrame::OnToolbarCreateNew)
-	ON_COMMAND_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnApplicationLook)
-	ON_UPDATE_COMMAND_UI_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnUpdateApplicationLook)
-	ON_MESSAGE(UWM_DELAYED_CREATE, OnDelayedCreate)
-	ON_COMMAND(ID_TOOLS_OPTIONS, OnToolsOptions)
-	ON_COMMAND(ID_WINDOW_FULL_SCREEN, OnWindowFullScreen)
-END_MESSAGE_MAP()
-
 static UINT indicators[] =
 {
 	ID_SEPARATOR,           // status line indicator
@@ -56,11 +45,29 @@ static UINT indicators[] =
 	ID_INDICATOR_SCRL,
 };
 
+enum {	// application looks; alpha order to match corresponding resource IDs
+	APPLOOK_OFF_2003,
+	APPLOOK_OFF_2007_AQUA,
+	APPLOOK_OFF_2007_BLACK,
+	APPLOOK_OFF_2007_BLUE,
+	APPLOOK_OFF_2007_SILVER,
+	APPLOOK_OFF_XP, 
+	APPLOOK_VS_2005,
+	APPLOOK_VS_2008,
+	APPLOOK_WINDOWS_7,
+	APPLOOK_WIN_2000,
+	APPLOOK_WIN_XP,
+	APP_LOOKS
+};
+
+#define ID_VIEW_APPLOOK_FIRST ID_VIEW_APPLOOK_OFF_2003
+#define ID_VIEW_APPLOOK_LAST ID_VIEW_APPLOOK_WIN_XP
+
 // CMainFrame construction/destruction
 
 CMainFrame::CMainFrame()
 {
-	theApp.m_nAppLook = theApp.GetInt(_T("ApplicationLook"), ID_VIEW_APPLOOK_VS_2008);
+	theApp.m_nAppLook = theApp.GetInt(_T("ApplicationLook"), APPLOOK_VS_2008);
 	m_pActiveDoc = NULL;
 	m_bIsFullScreenMode = false;
 	m_pPreFullScreenViewParent = NULL;
@@ -144,7 +151,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	}
 
 	// set the visual manager and style based on persisted value
-	OnApplicationLook(theApp.m_nAppLook);
+	OnApplicationLook(theApp.m_nAppLook + ID_VIEW_APPLOOK_FIRST);
 
 	// Enable enhanced windows management dialog
 	EnableWindowsDialog(ID_WINDOW_MANAGER, ID_WINDOW_MANAGER, TRUE);
@@ -262,6 +269,19 @@ void CMainFrame::Dump(CDumpContext& dc) const
 }
 #endif //_DEBUG
 
+// CMainFrame message map
+
+BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWndEx)
+	ON_WM_CREATE()
+	ON_COMMAND(ID_WINDOW_MANAGER, &CMainFrame::OnWindowManager)
+	ON_COMMAND(ID_VIEW_CUSTOMIZE, &CMainFrame::OnViewCustomize)
+	ON_REGISTERED_MESSAGE(AFX_WM_CREATETOOLBAR, &CMainFrame::OnToolbarCreateNew)
+	ON_COMMAND_RANGE(ID_VIEW_APPLOOK_FIRST, ID_VIEW_APPLOOK_LAST, OnApplicationLook)
+	ON_UPDATE_COMMAND_UI_RANGE(ID_VIEW_APPLOOK_FIRST, ID_VIEW_APPLOOK_LAST, OnUpdateApplicationLook)
+	ON_MESSAGE(UWM_DELAYED_CREATE, OnDelayedCreate)
+	ON_COMMAND(ID_TOOLS_OPTIONS, OnToolsOptions)
+	ON_COMMAND(ID_WINDOW_FULL_SCREEN, OnWindowFullScreen)
+END_MESSAGE_MAP()
 
 // CMainFrame message handlers
 
@@ -301,39 +321,39 @@ void CMainFrame::OnApplicationLook(UINT id)
 {
 	CWaitCursor wait;
 
-	theApp.m_nAppLook = id;
+	theApp.m_nAppLook = id - ID_VIEW_APPLOOK_FIRST;
 
 	switch (theApp.m_nAppLook)
 	{
-	case ID_VIEW_APPLOOK_WIN_2000:
+	case APPLOOK_WIN_2000:
 		CMFCVisualManager::SetDefaultManager(RUNTIME_CLASS(CMFCVisualManager));
 		break;
 
-	case ID_VIEW_APPLOOK_OFF_XP:
+	case APPLOOK_OFF_XP:
 		CMFCVisualManager::SetDefaultManager(RUNTIME_CLASS(CMFCVisualManagerOfficeXP));
 		break;
 
-	case ID_VIEW_APPLOOK_WIN_XP:
+	case APPLOOK_WIN_XP:
 		CMFCVisualManagerWindows::m_b3DTabsXPTheme = TRUE;
 		CMFCVisualManager::SetDefaultManager(RUNTIME_CLASS(CMFCVisualManagerWindows));
 		break;
 
-	case ID_VIEW_APPLOOK_OFF_2003:
+	case APPLOOK_OFF_2003:
 		CMFCVisualManager::SetDefaultManager(RUNTIME_CLASS(CMFCVisualManagerOffice2003));
 		CDockingManager::SetDockingMode(DT_SMART);
 		break;
 
-	case ID_VIEW_APPLOOK_VS_2005:
+	case APPLOOK_VS_2005:
 		CMFCVisualManager::SetDefaultManager(RUNTIME_CLASS(CMFCVisualManagerVS2005));
 		CDockingManager::SetDockingMode(DT_SMART);
 		break;
 
-	case ID_VIEW_APPLOOK_VS_2008:
+	case APPLOOK_VS_2008:
 		CMFCVisualManager::SetDefaultManager(RUNTIME_CLASS(CMFCVisualManagerVS2008));
 		CDockingManager::SetDockingMode(DT_SMART);
 		break;
 
-	case ID_VIEW_APPLOOK_WINDOWS_7:
+	case APPLOOK_WINDOWS_7:
 		CMFCVisualManager::SetDefaultManager(RUNTIME_CLASS(CMFCVisualManagerWindows7));
 		CDockingManager::SetDockingMode(DT_SMART);
 		break;
@@ -341,19 +361,19 @@ void CMainFrame::OnApplicationLook(UINT id)
 	default:
 		switch (theApp.m_nAppLook)
 		{
-		case ID_VIEW_APPLOOK_OFF_2007_BLUE:
+		case APPLOOK_OFF_2007_BLUE:
 			CMFCVisualManagerOffice2007::SetStyle(CMFCVisualManagerOffice2007::Office2007_LunaBlue);
 			break;
 
-		case ID_VIEW_APPLOOK_OFF_2007_BLACK:
+		case APPLOOK_OFF_2007_BLACK:
 			CMFCVisualManagerOffice2007::SetStyle(CMFCVisualManagerOffice2007::Office2007_ObsidianBlack);
 			break;
 
-		case ID_VIEW_APPLOOK_OFF_2007_SILVER:
+		case APPLOOK_OFF_2007_SILVER:
 			CMFCVisualManagerOffice2007::SetStyle(CMFCVisualManagerOffice2007::Office2007_Silver);
 			break;
 
-		case ID_VIEW_APPLOOK_OFF_2007_AQUA:
+		case APPLOOK_OFF_2007_AQUA:
 			CMFCVisualManagerOffice2007::SetStyle(CMFCVisualManagerOffice2007::Office2007_Aqua);
 			break;
 		}
@@ -369,7 +389,8 @@ void CMainFrame::OnApplicationLook(UINT id)
 
 void CMainFrame::OnUpdateApplicationLook(CCmdUI* pCmdUI)
 {
-	pCmdUI->SetRadio(theApp.m_nAppLook == pCmdUI->m_nID);
+	UINT	nAppLook = pCmdUI->m_nID - ID_VIEW_APPLOOK_FIRST;
+	pCmdUI->SetRadio(theApp.m_nAppLook == nAppLook);
 }
 
 
