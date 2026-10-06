@@ -213,6 +213,7 @@
     <ClInclude Include="FolderDialog.h" />
     <ClInclude Include="FrameSizeDef.h" />
     <ClInclude Include="Globals.h" />
+    <ClInclude Include="HistogramBar.h" />
     <ClInclude Include="HueDlg.h" />
     <ClInclude Include="LevelsBar.h" />
     <ClInclude Include="LevelsDlg.h" />
@@ -267,6 +268,7 @@
     <ClCompile Include="FauveTiled.cpp" />
     <ClCompile Include="FauveView.cpp" />
     <ClCompile Include="FolderDialog.cpp" />
+    <ClCompile Include="HistogramBar.cpp" />
     <ClCompile Include="HueDlg.cpp" />
     <ClCompile Include="LevelsBar.cpp" />
     <ClCompile Include="LevelsDlg.cpp" />

@@ -569,19 +569,21 @@ BEGIN
     IDS_DOC_ERR_CANT_SAVE_PNG "Can't save PNG file."
     IDS_DOC_ERR_SOURCE_NOT_FOUND 
                             "Source image file not found. Repair source image link?"
+    IDS_DOC_NEWER_VERSION   "'%1' is from a newer document version. Some of its features may not be supported."
     IDS_EDIT_CROP           "Crop"
     IDS_EDIT_HUE            "Hue"
+    IDS_EDIT_INVERT         "Invert"
     IDS_EDIT_LEVELS         "Levels"
     IDS_EDIT_MENU           "Edit"
     IDS_EDIT_REDO_PREFIX    "&Redo"
     IDS_EDIT_ROTATE         "Rotate"
     IDS_EDIT_SOURCE_IMAGE   "Source Image"
-    IDS_EDIT_UNDO_PREFIX    "&Undo"
-    IDS_LEVELS_RANGE_ERROR  "Minimum must be less than maximum."
 END
 
 STRINGTABLE
 BEGIN
+    IDS_EDIT_UNDO_PREFIX    "&Undo"
+    IDS_LEVELS_RANGE_ERROR  "Minimum must be less than maximum."
     IDS_PHASE_EXPORT_OVERWRITE_WARN 
                             "Destination folder already contains an image sequence.\nDo you want to replace it?"
     IDS_RECDLG_CUSTOM       "Custom"
@@ -589,27 +591,26 @@ BEGIN
     IDS_TOOLBAR_CUSTOMIZE   "Customize..."
     IDS_TOOLBAR_STANDARD    "Standard"
     IDP_OLE_INIT_FAILED     "OLE initialization failed.  Make sure that the OLE libraries are the correct version."
-    IDS_EDIT_INVERT         "Invert"
-    IDS_DOC_NEWER_VERSION   "'%1' is from a newer document version. Some of its features may not be supported."
 END
 
 STRINGTABLE
 BEGIN
     IDR_MAINFRAME           "FauveEdit"
     IDR_FauveEditTYPE       "\nFauveEdit\nFauveEdit\nFauveEdit Files (*.png; *.jpg; *.gif; *.bmp)\n.png;.jpg;.gif;.bmp\nFauveEdit.Document\nFauveEdit.Document"
+    IDS_BAR_Histogram       "Histogram"
 END
 
 STRINGTABLE
 BEGIN
     ID_VIEW_CUSTOMIZE       " "
     ID_WINDOW_MANAGER       "&Windows..."
-    ID_EDIT_INVERT          "Invert output colors"
 END
 
 STRINGTABLE
 BEGIN
     ID_EDIT_CROP            "Edit cropping\nCrop"
     ID_EDIT_HUE             "Edit hue\nHue"
+    ID_EDIT_INVERT          "Invert output colors"
     ID_EDIT_LEVELS          "Edit levels\nLevels"
     ID_EDIT_ROTATE_CW       "Rotate 90 degrees clockwise\nRotate CW"
     ID_EDIT_SOURCE_IMAGE    "Edit source image link"

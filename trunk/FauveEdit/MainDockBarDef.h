@@ -8,6 +8,7 @@
 		revision history:
 		rev		date	comments
         00		23sep22	initial version
+        01		02oct26	add histogram bar
 		
 */
 
@@ -21,6 +22,7 @@ MAINDOCKBARDEF(Levels,		300,	300,	dwBaseStyle | CBRS_RIGHT | WS_VISIBLE)
 #ifndef MAINDOCKBARDEF_EXCLUDE_HUE
 MAINDOCKBARDEF(Hue,			300,	300,	dwBaseStyle | CBRS_RIGHT | WS_VISIBLE)
 #endif
+MAINDOCKBARDEF(Histogram,	300,	300,	dwBaseStyle | CBRS_BOTTOM | WS_VISIBLE)
 
 // After adding a new dockable bar here:
 // 1. Add a resource string IDS_BAR_Foo where Foo is the bar name.

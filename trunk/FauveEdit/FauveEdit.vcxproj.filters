@@ -183,6 +183,9 @@
     <ClInclude Include="PathDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="HistogramBar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FauveEdit.cpp">
@@ -297,6 +300,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PathDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HistogramBar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

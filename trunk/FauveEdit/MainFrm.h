@@ -8,6 +8,7 @@
 		revision history:
 		rev		date	comments
         00		29apr20	initial version
+        01		02oct26	add histogram bar
 
 */
 
@@ -19,6 +20,7 @@
 #include "CropBar.h"
 #include "LevelsBar.h"
 #include "HueBar.h"
+#include "HistogramBar.h"
 
 // docking bar IDs are relative to AFX_IDW_CONTROLBAR_FIRST
 enum {	// docking bar IDs; don't change, else bar placement won't be restored

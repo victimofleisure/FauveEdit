@@ -9,6 +9,7 @@
 		rev		date	comments
         00		29apr20	initial version
 		01		15jan25	add update options methods
+        02		02oct26	add histogram bar
 
 */
 
@@ -448,6 +449,9 @@ void CMainFrame::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 	if (pSender != STATIC_DOWNCAST(CWnd, &m_wndHueBar)) {
 		m_wndHueBar.OnUpdate(pSender, lHint, pHint);
 	}
+	if (pSender != STATIC_DOWNCAST(CWnd, &m_wndHistogramBar)) {
+		m_wndHistogramBar.OnUpdate(pSender, lHint, pHint);
+	}	
 }
 
 void CMainFrame::UpdateOptions(const COptions& optsPrev)
