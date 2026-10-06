@@ -11,6 +11,7 @@ The project was originally a [Freeframe plugin](https://github.com/victimofleisu
 * Hue shifting with animation
 * Video export
 * Parallel processing to improve render speed
+* Output RGB histogram
 
 in 2025 the application's view was ported from GDI to Direct2D 1.1 for improved scaling performance and quality. Consequently Windows 7 SP1 is the oldest supported version.
 
